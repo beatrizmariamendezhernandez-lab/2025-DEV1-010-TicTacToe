@@ -1,5 +1,8 @@
 package com.game.__DEV1_010_TicTacToe.constant;
 
+/**
+ * Combination of positions that get a winner line.
+ */
 public final class WinningLines
 {
    public static final int[][][] LINES =

@@ -6,27 +6,54 @@ public class Board
 {
     private final Player[][] cells = new Player[3][3];
 
-    public Player get(int r, int c)
+    /**
+     * Get the symbol in the position given by row and column.
+     *
+     * @param row Board row to check.
+     * @param col Board column to check.
+     *
+     * @return The symbol in the position.
+     */
+    public Player get(int row, int col)
     {
-        return cells[r][c];
+        return cells[row][col];
     }
 
-    public void set(int r, int c, Player p)
+    /**
+     * Set a symbol in the position indicated by row and column.
+     *
+     * @param row Board row to check.
+     * @param col Board column to check.
+     * @param player Symbol to write in the position.
+     */
+    public void set(int row, int col, Player player)
     {
-        cells[r][c] = p;
+        cells[row][col] = player;
     }
 
-    public boolean isFull() {
+    /**
+     * Check if the board is full.
+     *
+     * @return True if the board is full and false otherwise.
+     */
+    public boolean isFull()
+    {
         for (Player[] row : cells)
         {
-            for (Player p : row)
+            for (Player player : row)
             {
-                if (p == null) return false;
+                if (player == null)
+                    return false;
             }
         }
         return true;
     }
 
+    /**
+     * Copy the Board in a 2D array to return the board in the API.
+     *
+     * @return A copy of the board but using a 2D array.
+     */
     public Player[][] snapshot()
     {
         Player[][] copy = new Player[3][3];
@@ -37,17 +64,33 @@ public class Board
         return copy;
     }
 
-    public boolean isCellEmpty(int r, int c)
+    /**
+     * Check if a cell is empty.
+     *
+     * @param row Board row to check.
+     * @param col Board column to check.
+     *
+     * @return True if the cell is null or false otherwise.
+     */
+    public boolean isCellEmpty(int row, int col)
     {
-        return cells[r][c] == null;
+        return cells[row][col] == null;
     }
 
-    public void placeMark(int r, int c, Player p)
+    /**
+     *
+     * @param row Board row to mark.
+     * @param col Board column to mark.
+     * @param player Symbol to add.
+     *
+     * @throws InvalidMoveException If the position is occupied.
+     */
+    public void placeMark(int row, int col, Player player)
     {
-        if (cells[r][c] != null)
+        if (cells[row][col] != null)
         {
             throw new InvalidMoveException("Cell occupied");
         }
-        cells[r][c] = p;
+        cells[row][col] = player;
     }
 }

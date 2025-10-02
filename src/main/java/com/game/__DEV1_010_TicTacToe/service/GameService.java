@@ -10,11 +10,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class GameService
 {
+    /**
+     * Create a new game.
+     *
+     * @param startingPlayer Player to use during game creation.
+     *
+     * @return The created game.
+     */
     public Game createNewGame(Player startingPlayer)
     {
         return new Game(startingPlayer);
     }
 
+    /**
+     * Updates the board with the player's symbol at the specified row and column,
+     * validates the move, and updates the game state (e.g., next player, win, or draw).
+     *
+     * @param game   The current game instance.
+     * @param row    The row index (0–2) where the move is made.
+     * @param col    The column index (0–2) where the move is made.
+     * @param player The player making the move (X or O).
+     *
+     * @throws InvalidMoveException If the move is invalid (e.g., cell already occupied).
+     * @throws IllegalStateException If the game finished.
+     */
     public void makeMove(Game game, int row, int col, Player player)
     {
         if (game.getStatus() != GameStatus.ONGOING)
@@ -46,6 +65,11 @@ public class GameService
         }
     }
 
+    /**
+     * Check the board after a move and update the game state if needed.
+     *
+     * @param game The current game instance.
+     */
     private void updateStatus(Game game)
     {
         for (int[][] line : WinningLines.LINES)
