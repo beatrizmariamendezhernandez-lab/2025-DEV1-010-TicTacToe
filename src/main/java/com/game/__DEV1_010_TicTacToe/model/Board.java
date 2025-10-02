@@ -1,5 +1,7 @@
 package com.game.__DEV1_010_TicTacToe.model;
 
+import com.game.__DEV1_010_TicTacToe.exception.InvalidMoveException;
+
 public class Board
 {
     private final Player[][] cells = new Player[3][3];
@@ -44,7 +46,7 @@ public class Board
     {
         if (cells[r][c] != null)
         {
-            throw new IllegalStateException("Cell occupied");
+            throw new InvalidMoveException("Cell occupied");
         }
         cells[r][c] = p;
     }

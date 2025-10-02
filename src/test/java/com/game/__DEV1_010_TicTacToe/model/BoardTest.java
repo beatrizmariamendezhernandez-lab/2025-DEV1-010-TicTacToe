@@ -1,5 +1,6 @@
 package com.game.__DEV1_010_TicTacToe.model;
 
+import com.game.__DEV1_010_TicTacToe.exception.InvalidMoveException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -69,7 +70,7 @@ class BoardTest
         Board board = new Board();
         board.placeMark(0, 0, Player.X);
 
-        assertThrows(IllegalStateException.class, () ->
+        assertThrows(InvalidMoveException.class, () ->
                 board.placeMark(0, 0, Player.O)
         );
     }
