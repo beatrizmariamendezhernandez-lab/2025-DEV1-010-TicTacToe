@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tic Tac Toe</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 40px; }
+        #board { display: grid; grid-template-columns: repeat(3, 100px); grid-gap: 5px; justify-content: center; }
+        .cell { width: 100px; height: 100px; border: 1px solid #000; font-size: 2em; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .cell:hover { background: #f0f0f0; }
+    </style>
+</head>
+<body>
+<h1>Tic Tac Toe</h1>
+<button onclick="startGame()">Start New Game</button>
+<h2 id="status"></h2>
+<div id="board"></div>
+
+<script>
+    let gameId = null;
+    let currentPlayer = "X";
+
+    async function startGame() {
+      const response = await fetch('/tictactoe', { method: 'POST' });
+      const game = await response.json();
+      gameId = game.id;
+      currentPlayer = game.currentPlayer;
+      renderBoard(game.board);
+      document.getElementById('status').innerText = "Game created. Current Player: " + currentPlayer;
+    }
+
+    async function makeMove(row, col) {
+      if (!gameId)
+      {
+        alert("No game created!");
+        return;
+      }
+
+      const move = {
+        row: row,
+        col: col,
+        player: currentPlayer
+      };
+
+      const response = await fetch(`/tictactoe/${gameId}/moves`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(move)
+      });
+      const game = await response.json();
+      renderBoard(game.board);
+      currentPlayer = game.currentPlayer;
+      document.getElementById('status').innerText = "Current Player: " + currentPlayer + " | Status: " + game.status;
+    }
+
+    function renderBoard(board) {
+      const boardDiv = document.getElementById('board');
+      boardDiv.innerHTML = '';
+      for (let r = 0; r < 3; r++) {
+        for (let c = 0; c < 3; c++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          cell.innerText = board[r][c];
+          cell.onclick = () => { if (!cell.innerText) makeMove(r, c); };
+          boardDiv.appendChild(cell);
+        }
+      }
+    }
+</script>
+</body>
+</html>
