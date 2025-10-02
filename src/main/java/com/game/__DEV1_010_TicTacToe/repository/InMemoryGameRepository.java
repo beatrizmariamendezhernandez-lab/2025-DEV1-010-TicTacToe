@@ -1,11 +1,13 @@
 package com.game.__DEV1_010_TicTacToe.repository;
 
 import com.game.__DEV1_010_TicTacToe.model.Game;
+import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class InMemoryGameRepository implements GameRepository
 {
     private final Map<String, Game> games = new ConcurrentHashMap<>();
